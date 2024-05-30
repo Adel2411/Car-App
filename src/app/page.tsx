@@ -1,8 +1,15 @@
 import { Hero, SearchBar, CustomFilter, CarCard } from "@/components";
+import { fuels, yearsOfProduction } from "@/constants";
 import { fetchCars } from "@/utils";
 
-export default async function Home() {
-  const allCars = await fetchCars();
+export default async function Home({ searchParams }: { searchParams: any }) {
+  const allCars = await fetchCars({
+    manufacturer: searchParams.manufacturer || "",
+    model: searchParams.model || "",
+    fuel: searchParams.fuel || "",
+    year: searchParams.year || 2024,
+    limit: searchParams.limit || 10,
+  });
   // this will log all the cars in the terminal because of the server-side rendering
   // console.log(allCars);
 
@@ -22,8 +29,8 @@ export default async function Home() {
           <SearchBar />
 
           <div className="home__filter-container">
-            <CustomFilter title="fuel" />
-            <CustomFilter title="year" />
+            <CustomFilter title="fuel" options={fuels} />
+            <CustomFilter title="year" options={yearsOfProduction} />
           </div>
         </div>
 
